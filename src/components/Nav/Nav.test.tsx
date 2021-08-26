@@ -10,7 +10,7 @@ it('should render the nav component', () => {
 it('should render a ul with a role of Navigation List', () => {
   render(<Nav/>)
   const navList = screen.getByLabelText('Navigation List')
-  expect(navList).toBeInTheDocument
+  expect(navList).toBeInTheDocument()
 })
 
 it('Should have 4 children in the Navigation List', () => {
