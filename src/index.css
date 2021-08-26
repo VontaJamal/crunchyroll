@@ -1,5 +1,6 @@
 :root {
-  --color: 'green'
+  --textColor: #dcdcdc;
+  --fontSizeM: clamp(1.5rem, -0.875rem + 8.333vw, 3rem);
 }
 
 body {
@@ -11,7 +12,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: var(--color)
+  color: var(--textColor);
+  background: url('images/background.jpg') no-repeat center/cover;
+  min-height: 100vh;
 }
 
 *::before,
