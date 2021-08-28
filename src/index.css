@@ -1,6 +1,7 @@
 :root {
   --textColor: #dcdcdc;
   --fontSizeM: clamp(1.5rem, -0.875rem + 8.333vw, 3rem);
+  --fontSizeS: clamp(1rem, 2rem, 2.5rem);
 }
 
 body {

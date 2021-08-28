@@ -1,3 +1,7 @@
+:root {
+  --leftPadding: 50px;
+}
+
 .nav {
   background: rgba(24, 24, 20, 0.75);
   min-height: 100vh;
@@ -10,7 +14,27 @@
   left: 2vw;
 }
 
+.nav > * {
+  padding-left: var(--leftPadding);
+}
+
 ul[aria-label='Navigation List'] {
   list-style: none;
-  line-height: calc(var(--fontSizeM) * 2);
+  line-height: calc(var(--fontSizeM) * 1.75);
+}
+
+.logo_container {
+  display: flex;
+  align-items: center;
+}
+
+.logo_container img[alt='The Crunchyroll logo'] {
+  height: 75px;
+  padding-left: calc(var(--leftPadding) - 75);
+}
+
+.logo_container p {
+  letter-spacing: 0.15rem;
+  font-weight: 600;
+  font-size: var(--fontSizeS);
 }
