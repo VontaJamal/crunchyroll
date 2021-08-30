@@ -19,7 +19,7 @@ body {
   position: relative;
 }
 
-*::before,
+*,*::before,
 *::after {
   margin: 0;
   padding: 0;

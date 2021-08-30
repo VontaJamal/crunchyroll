@@ -8,7 +8,7 @@ export default function Nav() {
         <img src={logo} alt='The Crunchyroll logo' />
         <p>crunchyroll</p>
       </div>
-      <h2 className='animeText'>Anime</h2>
+      <h3 className='animeText'>Anime</h3>
       <ul aria-label='Navigation List'>
         <li>Updated</li>
         <li>Popular</li>
