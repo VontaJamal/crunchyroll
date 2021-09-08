@@ -6,10 +6,15 @@ export default function Nav() {
   const [group, setGroup] = useState('')
 
   //hover over a list item
-  useEffect(() => {}, [])
-
-  //find the div with arrow class within
-  //add the active class to the div to show arrow
+  useEffect(() => {
+    function updateNavArrow() {
+      const sheatheArrow = document.querySelector('.active')
+      sheatheArrow?.classList.remove('active')
+      const drawArrow = document.querySelector(`[data-group="${group}" i] > div`)
+      drawArrow?.classList.add('active')
+    }
+    updateNavArrow()
+  }, [group])
 
   const navItems = ['Updated', 'Popular', 'Simulcasts', 'All']
 
@@ -17,9 +22,7 @@ export default function Nav() {
     e: React.MouseEvent<HTMLLIElement> & {target: Element}
   ) => {
     const itemGroup = e.target.textContent?.toLowerCase()
-    if (itemGroup) {
-      setGroup(itemGroup)
-    }
+    itemGroup && setGroup(itemGroup)
   }
 
   return (
@@ -34,15 +37,15 @@ export default function Nav() {
           <div className='arrow' />
           Updated
         </li>
-        <li onMouseEnter={handleMouseEnter}data-group='popular'>
+        <li onMouseEnter={handleMouseEnter} data-group='popular'>
           <div className='arrow' />
           Popular
         </li>
-        <li onMouseEnter={handleMouseEnter}data-group='simulcasts'>
+        <li onMouseEnter={handleMouseEnter} data-group='simulcasts'>
           <div className='arrow' />
           Simulcasts
         </li>
-        <li onMouseEnter={handleMouseEnter}data-group='all'>
+        <li onMouseEnter={handleMouseEnter} data-group='all'>
           <div className='arrow' />
           All
         </li>

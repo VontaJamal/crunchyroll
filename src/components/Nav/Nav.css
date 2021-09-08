@@ -48,9 +48,8 @@ ul[aria-label='Navigation List'] li {
 
 .arrow {
   border: 20px solid transparent;
-  /* border-left-color: var(--crunchyRoll); */
 }
 
-.arrow .active {
+.arrow.active {
   border-left-color: var(--crunchyRoll);
 }
