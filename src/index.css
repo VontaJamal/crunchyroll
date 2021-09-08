@@ -2,6 +2,7 @@
   --textColor: #dcdcdc;
   --fontSizeM: clamp(1.5rem, -0.875rem + 8.333vw, 3rem);
   --fontSizeS: clamp(1rem, 2rem, 2.5rem);
+  --crunchyRoll: rgb(223,99,0)
 }
 
 body {
@@ -19,7 +20,7 @@ body {
   position: relative;
 }
 
-*::before,
+*,*::before,
 *::after {
   margin: 0;
   padding: 0;
