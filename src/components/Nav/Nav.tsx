@@ -5,24 +5,38 @@ import './Nav.css'
 export default function Nav() {
   const [group, setGroup] = useState('')
 
-  //hover over a list item
   useEffect(() => {
     function updateNavArrow() {
       const sheatheArrow = document.querySelector('.active')
       sheatheArrow?.classList.remove('active')
-      const drawArrow = document.querySelector(`[data-group="${group}" i] > div`)
+      const drawArrow = document.querySelector(
+        `[data-group="${group}" i] > div`
+      )
       drawArrow?.classList.add('active')
     }
+
     updateNavArrow()
   }, [group])
 
-  const navItems = ['Updated', 'Popular', 'Simulcasts', 'All']
-
   const handleMouseEnter = (
     e: React.MouseEvent<HTMLLIElement> & {target: Element}
-  ) => {
-    const itemGroup = e.target.textContent?.toLowerCase()
-    itemGroup && setGroup(itemGroup)
+    ) => {
+      const itemGroup = e.target.textContent?.toLowerCase()
+      itemGroup && setGroup(itemGroup)
+  }
+
+  function renderNavItems() {
+    const navItems = ['Updated', 'Popular', 'Simulcasts', 'All']
+    return navItems.map((navItem) => (
+      <li
+        onMouseEnter={handleMouseEnter}
+        data-group={`${navItem}`}
+        aria-label={`${navItem}`}
+      >
+        <div className='arrow' />
+        {`${navItem}`}
+      </li>
+    ))
   }
 
   return (
@@ -33,22 +47,7 @@ export default function Nav() {
       </div>
       <h3 className='animeText'>Anime</h3>
       <ul aria-label='Navigation List'>
-        <li onMouseEnter={handleMouseEnter} data-group='updated'>
-          <div className='arrow' />
-          Updated
-        </li>
-        <li onMouseEnter={handleMouseEnter} data-group='popular'>
-          <div className='arrow' />
-          Popular
-        </li>
-        <li onMouseEnter={handleMouseEnter} data-group='simulcasts'>
-          <div className='arrow' />
-          Simulcasts
-        </li>
-        <li onMouseEnter={handleMouseEnter} data-group='all'>
-          <div className='arrow' />
-          All
-        </li>
+       {renderNavItems()}
       </ul>
     </header>
   )
