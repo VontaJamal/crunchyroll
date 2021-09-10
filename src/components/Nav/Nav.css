@@ -5,7 +5,7 @@
 .nav {
   background: rgba(24, 24, 20, 0.75);
   min-height: 100vh;
-  width: 461px;
+  width: 380px;
   font-size: var(--fontSizeM);
   position: relative;
   left: 2vw;
