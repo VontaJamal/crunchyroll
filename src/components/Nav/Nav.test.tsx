@@ -1,4 +1,5 @@
-import {fireEvent, render, screen} from '@testing-library/react'
+import {render, screen} from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import Nav from './Nav'
 
 it('should render the nav component', () => {
@@ -22,6 +23,32 @@ it('Should have 4 children in the Navigation List', () => {
 it('Should add an active class when li is hovered', () => {
   render(<Nav />)
   const navListItem = screen.getByRole('listitem', {name: /updated/i})
-  fireEvent.mouseEnter(navListItem)
+  userEvent.hover(navListItem)
   expect(navListItem.querySelector('div')).toHaveClass('active')
+})
+
+it('Should have no arrow when first loaded', () => {
+  render(<Nav />)
+  const hasActiveDiv = document.querySelector('.active')
+  expect(hasActiveDiv).toBeNull()
+})
+
+describe('Testing the keyboard navigation on the Nav', () => {
+  it('Should select the "updated" category when the uparrow is pressed', () => {
+    render(<Nav />)
+    userEvent.keyboard('{arrowup}')
+    const navListItem = screen.getByRole('listitem', {name: /updated/i})
+    expect(navListItem.querySelector('div')).toHaveClass('active')
+  })
+
+  it('Should cycle through the categories when the up arrow is pressed', () => {
+    render(<Nav/>)
+    userEvent.keyboard('{arrowup}') // press one time to set arrow on "Updated"
+    const reversedNavItems = ['Updated', 'Popular', 'Simulcasts', 'All'].reverse()
+    reversedNavItems.forEach((navItem) => {
+      userEvent.keyboard('{arrowup}')
+      const navListItem = screen.getByRole('listitem', {name: navItem})
+      expect(navListItem.querySelector('div')).toHaveClass('active')
+    })
+  })
 })
