@@ -1,4 +1,4 @@
-import {render, screen, fireEvent} from '@testing-library/react'
+import {fireEvent, render, screen} from '@testing-library/react'
 import Nav from './Nav'
 
 it('should render the nav component', () => {
@@ -19,7 +19,7 @@ it('Should have 4 children in the Navigation List', () => {
   expect(navListItems).toHaveLength(4)
 })
 
-it.only('Should add an active class when li is hovered', () => {
+it('Should add an active class when li is hovered', () => {
   render(<Nav />)
   const navListItem = screen.getByRole('listitem', {name: /updated/i})
   fireEvent.mouseEnter(navListItem)
