@@ -2,6 +2,7 @@ import {useEffect, useReducer} from 'react'
 import logo from '../../images/logo.png'
 import {useKeypress} from '../utils/customHooks'
 import {titleCase} from '../utils/helpers'
+import './Nav.css'
 import {
   NavActions,
   NavCategories,
@@ -9,10 +10,9 @@ import {
   NavKeys,
   navReducer,
 } from './NavResources'
-import './Nav.css'
 
 const initialState = {
-  category: '',
+  category: 'updated',
   isUpPressed: false,
   isDownPressed: false,
 }
@@ -39,14 +39,7 @@ export default function Nav() {
 
   useEffect(() => {
     function handleArrowPress() {
-      if (isUpPressed || isDownPressed) {
-        if (!category) dispatchUpdate()
-        else dispatchCurrent()
-      }
-    }
-
-    function dispatchUpdate() {
-      dispatch({type: NavActions.SET_UPDATED})
+      if (isUpPressed || isDownPressed) dispatchCurrent()
     }
 
     function dispatchCurrent() {

@@ -1,7 +1,7 @@
 import {render, screen} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Nav from './Nav'
-import {NavItems} from './NavResources'
+import {NavCategories, NavItems} from './NavResources'
 
 it('should render the nav component', () => {
   render(<Nav />)
@@ -28,24 +28,22 @@ it('Should add an active class when li is hovered', () => {
   expect(navListItem.querySelector('div')).toHaveClass('active')
 })
 
-it('Should have no arrow when first loaded', () => {
+it('Should have an arrow on "Updated" when first loaded', () => {
   render(<Nav />)
   const hasActiveDiv = document.querySelector('.active')
-  expect(hasActiveDiv).toBeNull()
+  expect(hasActiveDiv).toBeInTheDocument()
 })
 
 describe('Testing the uparrow navigation on the Nav', () => {
-  it('Should select the "updated" category when the uparrow is pressed', () => {
+  it('Should select the "all" category when the uparrow is pressed', () => {
     render(<Nav />)
     userEvent.keyboard('{arrowup}')
-    const navListItem = screen.getByRole('listitem', {name: /updated/i})
+    const navListItem = screen.getByRole('listitem', {name: /all/i})
     expect(navListItem.querySelector('div')).toHaveClass('active')
   })
 
   it('Should cycle through the categories when uparrow is pressed', () => {
     render(<Nav />)
-    userEvent.keyboard('{arrowup}') // press one time to set arrow on "Updated"
-
     const navItemsCopy = [...NavItems]
     navItemsCopy.reverse().forEach((navItem) => {
       userEvent.keyboard('{arrowup}')
@@ -56,16 +54,20 @@ describe('Testing the uparrow navigation on the Nav', () => {
 })
 
 describe('Testing the down arrow navigation on the Nav', () => {
-  it('Should select the "updated" category when downarrow is pressed', () => {
+  it('Should select the "Popular" category when downarrow is pressed', () => {
     render(<Nav />)
     userEvent.keyboard('{arrowdown}')
-    const navListItem = screen.getByRole('listitem', {name: /updated/i})
+    const navListItem = screen.getByRole('listitem', {name: /popular/i})
     expect(navListItem.querySelector('div')).toHaveClass('active')
   })
 
   it('Should cycle through the categories when downarrow is pressed', () => {
     render(<Nav />)
-    NavItems.forEach((navItem) => {
+    const testNavItems = NavItems.filter(
+      (navItem) => navItem !== NavCategories.UPDATED
+    )
+
+    testNavItems.forEach((navItem) => {
       userEvent.keyboard('{arrowdown}')
       const navListItem = screen.getByRole('listitem', {name: navItem})
       expect(navListItem.querySelector('div')).toHaveClass('active')
