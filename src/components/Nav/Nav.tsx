@@ -7,7 +7,7 @@ import {
   NavCategories,
   NavItems,
   NavKeys,
-  NavReducer,
+  navReducer,
 } from './NavResources'
 import './Nav.css'
 
@@ -18,12 +18,12 @@ const initialState = {
 }
 
 export default function Nav() {
-  const [navState, dispatch] = useReducer(NavReducer, initialState)
+  const [navState, dispatch] = useReducer(navReducer, initialState)
   const {isUpPressed, isDownPressed} = navState
   const category = titleCase(navState.category)
 
-  useKeypress(NavKeys.ArrowUp, dispatch)
-  useKeypress(NavKeys.ArrowDown, dispatch)
+  useKeypress(NavKeys.ARROWUP, dispatch)
+  useKeypress(NavKeys.ARROWDOWN, dispatch)
 
   useEffect(() => {
     function updateArrow() {

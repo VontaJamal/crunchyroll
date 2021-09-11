@@ -9,7 +9,7 @@ export const useKeypress = (
     const key = event.key.toLowerCase()
     if (key === targetKey.toLowerCase()) {
       if (event.type === 'keydown') {
-        key === NavKeys.ArrowUp
+        key === NavKeys.ARROWUP
           ? dispatch({type: NavActions.SET_UPARROW_PRESSED})
           : dispatch({type: NavActions.SET_DOWNARROW_PRESSED})
       } else {

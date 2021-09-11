@@ -56,7 +56,7 @@ describe('Testing the uparrow navigation on the Nav', () => {
 })
 
 describe('Testing the down arrow navigation on the Nav', () => {
-  it('Should select the "updated" category when the downarrow is pressed', () => {
+  it('Should select the "updated" category when downarrow is pressed', () => {
     render(<Nav />)
     userEvent.keyboard('{arrowdown}')
     const navListItem = screen.getByRole('listitem', {name: /updated/i})

@@ -15,8 +15,8 @@ export type NavType = {
 }
 
 export const NavKeys = {
-  ArrowUp: 'arrowup',
-  ArrowDown: 'arrowdown',
+  ARROWUP: 'arrowup',
+  ARROWDOWN: 'arrowdown',
 }
 
 type NavState = {
@@ -40,7 +40,7 @@ for (const category in NavCategories) {
 
 export const NavItems = generatedNavItems
 
-export const NavReducer: Reducer<NavState, NavType> = (state, action) => {
+export const navReducer: Reducer<NavState, NavType> = (state, action) => {
   switch (action.type) {
     case NavActions.SET_UPDATED:
       return {
