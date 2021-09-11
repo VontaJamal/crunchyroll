@@ -46,14 +46,10 @@ describe('Testing the uparrow navigation on the Nav', () => {
     render(<Nav />)
     userEvent.keyboard('{arrowup}') // press one time to set arrow on "Updated"
 
-    let navListItem
-    navListItem = screen.getByRole('listitem', {name: /updated/i})
-    expect(navListItem.querySelector('div')).toHaveClass('active')
-
     const navItemsCopy = [...NavItems]
     navItemsCopy.reverse().forEach((navItem) => {
       userEvent.keyboard('{arrowup}')
-      navListItem = screen.getByRole('listitem', {name: navItem})
+      const navListItem = screen.getByRole('listitem', {name: navItem})
       expect(navListItem.querySelector('div')).toHaveClass('active')
     })
   })
