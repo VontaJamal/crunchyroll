@@ -1,6 +1,7 @@
 import {render, screen} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Nav from './Nav'
+import {NavItems} from './NavResources'
 
 it('should render the nav component', () => {
   render(<Nav />)
@@ -33,7 +34,7 @@ it('Should have no arrow when first loaded', () => {
   expect(hasActiveDiv).toBeNull()
 })
 
-describe('Testing the keyboard navigation on the Nav', () => {
+describe('Testing the uparrow navigation on the Nav', () => {
   it('Should select the "updated" category when the uparrow is pressed', () => {
     render(<Nav />)
     userEvent.keyboard('{arrowup}')
@@ -41,12 +42,35 @@ describe('Testing the keyboard navigation on the Nav', () => {
     expect(navListItem.querySelector('div')).toHaveClass('active')
   })
 
-  it('Should cycle through the categories when the up arrow is pressed', () => {
-    render(<Nav/>)
+  it('Should cycle through the categories when uparrow is pressed', () => {
+    render(<Nav />)
     userEvent.keyboard('{arrowup}') // press one time to set arrow on "Updated"
-    const reversedNavItems = ['Updated', 'Popular', 'Simulcasts', 'All'].reverse()
-    reversedNavItems.forEach((navItem) => {
+
+    let navListItem
+    navListItem = screen.getByRole('listitem', {name: /updated/i})
+    expect(navListItem.querySelector('div')).toHaveClass('active')
+
+    const navItemsCopy = [...NavItems]
+    navItemsCopy.reverse().forEach((navItem) => {
       userEvent.keyboard('{arrowup}')
+      navListItem = screen.getByRole('listitem', {name: navItem})
+      expect(navListItem.querySelector('div')).toHaveClass('active')
+    })
+  })
+})
+
+describe('Testing the down arrow navigation on the Nav', () => {
+  it('Should select the "updated" category when the downarrow is pressed', () => {
+    render(<Nav />)
+    userEvent.keyboard('{arrowdown}')
+    const navListItem = screen.getByRole('listitem', {name: /updated/i})
+    expect(navListItem.querySelector('div')).toHaveClass('active')
+  })
+
+  it('Should cycle through the categories when downarrow is pressed', () => {
+    render(<Nav />)
+    NavItems.forEach((navItem) => {
+      userEvent.keyboard('{arrowdown}')
       const navListItem = screen.getByRole('listitem', {name: navItem})
       expect(navListItem.querySelector('div')).toHaveClass('active')
     })
