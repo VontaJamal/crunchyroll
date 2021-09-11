@@ -1,17 +1,20 @@
 import {useEffect} from 'react'
-import {NavActions} from '../Nav/NavActions'
-import {NavType} from '../Nav/NavTypes'
+import {NavActions, NavKeys, NavType} from '../Nav/NavResources'
 
 export const useKeypress = (
   targetKey: string,
   dispatch: React.Dispatch<NavType>
 ) => {
   function handleKeyPress(event: KeyboardEvent) {
-    event.preventDefault()
-    if (event.key.toLowerCase() === targetKey.toLowerCase()) {
-      event.type === 'keydown'
-        ? dispatch({type: NavActions.SET_UPARROW_PRESSED})
-        : dispatch({type: NavActions.SET_UPARROW_NOT_PRESSED})
+    const key = event.key.toLowerCase()
+    if (key === targetKey.toLowerCase()) {
+      if (event.type === 'keydown') {
+        key === NavKeys.ARROWUP
+          ? dispatch({type: NavActions.SET_UPARROW_PRESSED})
+          : dispatch({type: NavActions.SET_DOWNARROW_PRESSED})
+      } else {
+        dispatch({type: NavActions.SET_NOT_PRESSED})
+      }
     }
   }
 

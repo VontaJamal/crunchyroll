@@ -1,60 +1,15 @@
-import {Reducer, useEffect, useReducer} from 'react'
+import {useEffect, useReducer} from 'react'
+import logo from '../../images/logo.png'
 import {useKeypress} from '../utils/customHooks'
 import {titleCase} from '../utils/helpers'
-import {NavActions} from './NavActions'
-import {NavType} from './NavTypes'
-import logo from '../../images/logo.png'
+import {
+  NavActions,
+  NavCategories,
+  NavItems,
+  NavKeys,
+  navReducer,
+} from './NavResources'
 import './Nav.css'
-
-const navItems = ['Updated', 'Popular', 'Simulcasts', 'All']
-
-const categories = {
-  UPDATED: 'updated',
-  POPULAR: 'popular',
-  SIMULCASTS: 'simulcasts',
-  ALL: 'all',
-}
-
-type NavState = {
-  category: string
-  isUpPressed: boolean
-  isDownPressed: boolean
-}
-
-const navReducer: Reducer<NavState, NavType> = (state, action) => {
-  switch (action.type) {
-    case NavActions.SET_UPDATED:
-      return {
-        isDownPressed: false,
-        isUpPressed: false,
-        category: categories.UPDATED,
-      }
-
-    case NavActions.SET_ALL:
-      return {
-        isUpPressed: false,
-        isDownPressed: false,
-        category: categories.ALL,
-      }
-
-    case NavActions.SET_UPARROW_PRESSED:
-      const category = action.payload || state.category
-      return {...state, isUpPressed: true, category}
-
-    case NavActions.SET_UPARROW_NOT_PRESSED:
-      return {...state, isUpPressed: false}
-
-    case NavActions.SET_CURRENT:
-      return {
-        isUpPressed: false,
-        isDownPressed: false,
-        category: action.payload || '',
-      }
-
-    default:
-      return {...state}
-  }
-}
 
 const initialState = {
   category: '',
@@ -65,10 +20,10 @@ const initialState = {
 export default function Nav() {
   const [navState, dispatch] = useReducer(navReducer, initialState)
   const {isUpPressed, isDownPressed} = navState
-  const category = navState.category?.toLowerCase()
+  const category = titleCase(navState.category)
 
-  useKeypress('arrowdown', dispatch)
-  useKeypress('arrowup', dispatch)
+  useKeypress(NavKeys.ARROWUP, dispatch)
+  useKeypress(NavKeys.ARROWDOWN, dispatch)
 
   useEffect(() => {
     function updateArrow() {
@@ -83,30 +38,40 @@ export default function Nav() {
   }, [category])
 
   useEffect(() => {
-    function handleUpArrowPress() {
-      if (isUpPressed) {
-        if (!category) dispatch({type: NavActions.SET_UPDATED})
-        if (category) {
-          if (category === categories.UPDATED) {
-            dispatch({type: NavActions.SET_ALL})
-          } else {
-            const categoryIndex = navItems.indexOf(titleCase(category))
-            if (categoryIndex > -1)
-              dispatch({
-                type: NavActions.SET_CURRENT,
-                payload: navItems[categoryIndex - 1],
-              })
-          }
+    function handleArrowPress() {
+      if (isUpPressed || isDownPressed) {
+        if (!category) dispatchUpdate()
+        else dispatchCurrent()
+      }
+    }
+
+    function dispatchUpdate() {
+      dispatch({type: NavActions.SET_UPDATED})
+    }
+
+    function dispatchCurrent() {
+      if (isUpPressed && category === NavCategories.UPDATED)
+        dispatch({type: NavActions.SET_ALL})
+      else if (isDownPressed && category === NavCategories.ALL)
+        dispatch({type: NavActions.SET_UPDATED})
+      else {
+        const categoryIndex = category
+          ? NavItems.indexOf(titleCase(category))
+          : -1
+        if (categoryIndex > -1) {
+          const currentCategoryIndex = isUpPressed
+            ? categoryIndex - 1
+            : categoryIndex + 1
+          dispatch({
+            type: NavActions.SET_CURRENT,
+            payload: NavItems[currentCategoryIndex],
+          })
         }
       }
     }
 
-    handleUpArrowPress()
-  }, [isUpPressed, category])
-
-  useEffect(() => {
-    if (isDownPressed) console.log('down?', isDownPressed)
-  }, [isDownPressed])
+    handleArrowPress()
+  }, [category, isUpPressed, isDownPressed])
 
   const handleMouseEnter = (
     e: React.MouseEvent<HTMLLIElement> & {target: Element}
@@ -116,7 +81,7 @@ export default function Nav() {
   }
 
   function renderNavItems() {
-    return navItems.map((navItem) => (
+    return NavItems.map((navItem) => (
       <li
         onMouseEnter={handleMouseEnter}
         data-group={`${navItem}`}
